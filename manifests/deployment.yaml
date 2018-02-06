@@ -1,0 +1,72 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: grafana-core
+  namespace: $NS
+  labels:
+    app: grafana
+    component: core
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: grafana
+        component: core
+    spec:
+      containers:
+      - image: $IMAGE
+        name: grafana-core
+        imagePullPolicy: IfNotPresent
+        # env:
+        resources:
+          # keep request = limit to keep this container in guaranteed class
+          limits:
+            cpu: 100m
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+          # The following env variables set up basic auth twith the default admin user and admin password.
+          - name: GF_AUTH_BASIC_ENABLED
+            value: "true"
+          - name: GF_AUTH_ANONYMOUS_ENABLED
+            value: "false"
+          - name: GF_SECURITY_ADMIN_PASSWORD
+            value: "$ADMIN_PASSWORD"
+          - name: GF_INSTALL_PLUGINS
+            value: "$INSTALL_PLUGINS"
+          - name: GF_AWS_PROFILES
+            value: "$AWS_PROFILE"
+          - name: GF_AWS_default_ACCESS_KEY_ID
+            value: "$AWS_ACCESS_KEY_ID"
+          - name: GF_AWS_default_SECRET_ACCESS_KEY
+            value: "$AWS_SECRET_ACCESS_KEY"
+          - name: GF_AWS_default_REGION
+            value: "$AWS_REGION"
+          # - name: GF_AUTH_ANONYMOUS_ORG_ROLE
+          #   value: Admin
+          # does not really work, because of template variables in exported dashboards:
+          # - name: GF_DASHBOARDS_JSON_ENABLED
+          #   value: "true"
+        readinessProbe:
+          httpGet:
+            path: /login
+            port: 3000
+          # initialDelaySeconds: 30
+          # timeoutSeconds: 1
+    #     volumeMounts:
+    #     - name: grafana-persistent-storage
+    #       mountPath: /var
+    #   volumes:
+    #   - name: grafana-persistent-storage
+    #     emptyDir: {}
+        volumeMounts:
+          - name: $GCE_DISK
+            mountPath: /var/lib/grafana
+      volumes:
+        - name: $GCE_DISK
+          gcePersistentDisk:
+            pdName: $GCE_DISK
+            fsType: "ext4"

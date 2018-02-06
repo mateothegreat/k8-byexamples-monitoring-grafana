@@ -6,14 +6,33 @@
 # /____                     matthewdavis.io, holla!
 #
 
-NS              ?= default
-APP             ?= app
+NS                      ?= infra-monitoring
+APP                     ?= grafana
+IMAGE                   ?= grafana/grafana:5.0.0-beta1
+INSTALL_PLUGINS         ?= grafana-clock-panel,grafana-simple-json-datasource,camptocamp-prometheus-alertmanager-datasource,ntop-ntopng-datasource,novalabs-annotations-panel,alexanderzobnin-zabbix-app
+ADMIN_PASSWORD          ?= P@55w0rd!!
+AWS_PROFILE             ?= default
+AWS_ACCESS_KEY_ID       ?= YOUR_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY   ?= YOUR_SECRET_KEY
+AWS_REGION              ?= us-west-1
+GCE_ZONE				?= us-central1-a
+GCE_DISK                ?= grafana-persistent-storage
 export
 
 ## Install all resources
-install:    install
+install:    install-deployment install-service install-dashboards-configmap install-dashboards-job
 ## Delete all resources
-delete:     delete-
+delete:     delete-deployment delete-service delete-dashboards-configmap delete-dashboards-job
+
+## Create GCE Persistent Disk
+disks-create:
+
+	gcloud compute disks create --zone=$(GCE_ZONE) --labels="purpose=k8" --size 10GB $(GCE_DISK)
+
+## Get GCE Persistent Disk Configuration Status
+disks-get:
+
+	gcloud compute disks describe --zone=$(GCE_ZONE) $(GCE_DISK)
 
 #
 # Find first pod and follow log output
@@ -29,10 +48,14 @@ install-%:
 delete-%:
 	@envsubst < manifests/$*.yaml | kubectl --namespace $(NS) delete --ignore-not-found -f -
 
+status-%:
+	@envsubst < manifests/$*.yaml | kubectl --namespace $(NS) rollout status -w -f -
+
 dump-%:
 	envsubst < manifests/$*.yaml
 
 # Help Outputs
+all:        help
 GREEN  		:= $(shell tput -Txterm setaf 2)
 YELLOW 		:= $(shell tput -Txterm setaf 3)
 WHITE  		:= $(shell tput -Txterm setaf 7)
