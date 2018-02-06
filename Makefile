@@ -23,6 +23,8 @@ export
 install:    install-deployment install-service install-dashboards-configmap install-dashboards-job
 ## Delete all resources
 delete:     delete-deployment delete-service delete-dashboards-configmap delete-dashboards-job
+## Dump the final spec (make dump <spec name> from the manifests dir for more)
+dump:       dump-deployment dump-service
 
 ## Create GCE Persistent Disk
 disks-create:
