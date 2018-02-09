@@ -45,28 +45,16 @@ spec:
             value: "$AWS_SECRET_ACCESS_KEY"
           - name: GF_AWS_default_REGION
             value: "$AWS_REGION"
-          # - name: GF_AUTH_ANONYMOUS_ORG_ROLE
-          #   value: Admin
-          # does not really work, because of template variables in exported dashboards:
-          # - name: GF_DASHBOARDS_JSON_ENABLED
-          #   value: "true"
         readinessProbe:
           httpGet:
             path: /login
             port: 3000
-          # initialDelaySeconds: 30
-          # timeoutSeconds: 1
-    #     volumeMounts:
-    #     - name: grafana-persistent-storage
-    #       mountPath: /var
-    #   volumes:
-    #   - name: grafana-persistent-storage
-    #     emptyDir: {}
+          initialDelaySeconds: 60
+          timeoutSeconds: 15
         volumeMounts:
-          - name: $GCE_DISK
+          - name: grafana-persistent-storage
             mountPath: /var/lib/grafana
       volumes:
-        - name: $GCE_DISK
-          gcePersistentDisk:
-            pdName: $GCE_DISK
-            fsType: "ext4"
+      - name: grafana-persistent-storage
+        persistentVolumeClaim:
+          claimName: grafana-persistent-storage
