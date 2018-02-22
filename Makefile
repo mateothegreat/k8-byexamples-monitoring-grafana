@@ -19,3 +19,12 @@ AWS_REGION              ?= us-west-1
 GCE_ZONE				?= us-central1-a
 GCE_DISK                ?= grafana-persistent-storage
 export
+
+## Test installation
+test:
+
+	@echo "$(GREEN)"
+
+	nslookup grafana
+
+	@echo "$(RESET)"
