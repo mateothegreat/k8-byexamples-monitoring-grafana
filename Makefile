@@ -9,7 +9,7 @@ include .make/Makefile.inc
 
 NS                      ?= default
 APP                     ?= grafana
-IMAGE                   ?= grafana/grafana:5.0.0-beta1
+IMAGE                   ?= grafana/grafana:5.0.0-beta4
 INSTALL_PLUGINS         ?= grafana-clock-panel,grafana-simple-json-datasource,camptocamp-prometheus-alertmanager-datasource,ntop-ntopng-datasource,novalabs-annotations-panel,alexanderzobnin-zabbix-app
 ADMIN_PASSWORD          ?= P@55w0rd!!
 AWS_PROFILE             ?= default
