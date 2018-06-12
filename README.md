@@ -43,29 +43,26 @@ Targets:
 ```sh
 $ make install ADMIN_PASSWORD=changeme
 
+[ INSTALLING MANIFESTS/STORAGE-PERSISTENTVOLUMECLAIM.YAML ]: persistentvolumeclaim "grafana-persistent-storage" created
+[ INSTALLING MANIFESTS/STORAGE-PERSISTENTVOLUME.YAML ]: persistentvolume "grafana-persistent-storage" created
 [ INSTALLING MANIFESTS/DASHBOARDS-CONFIGMAP.YAML ]: configmap "grafana-import-dashboards" created
-[ INSTALLING MANIFESTS/DASHBOARDS-JOB.YAML ]: job "grafana-import-dashboards" created
-[ INSTALLING MANIFESTS/DEPLOYMENT.YAML ]: deployment "grafana-core" created
-[ INSTALLING MANIFESTS/INGRESS.YAML ]: error: no objects passed to apply
-[ INSTALLING MANIFESTS/PERSISTENTVOLUMECLAIM.YAML ]: persistentvolumeclaim "grafana-persistent-storage" created
 [ INSTALLING MANIFESTS/SERVICE.YAML ]: service "grafana" created
-```
-
-```sh
-
+[ INSTALLING MANIFESTS/DEPLOYMENT.YAML ]: deployment "grafana-core" created
+[ INSTALLING MANIFESTS/DASHBOARDS-JOB.YAML ]: job "grafana-import-dashboards" created
 ```
 
 ## Delete
 
 ```sh
 $ make delete
+  
+  [ DELETING MANIFESTS/STORAGE-PERSISTENTVOLUMECLAIM.YAML ]: persistentvolumeclaim "grafana-persistent-storage" deleted
+  [ DELETING MANIFESTS/STORAGE-PERSISTENTVOLUME.YAML ]: persistentvolume "grafana-persistent-storage" deleted
+  [ DELETING MANIFESTS/DASHBOARDS-CONFIGMAP.YAML ]: configmap "grafana-import-dashboards" deleted
+  [ DELETING MANIFESTS/SERVICE.YAML ]: service "grafana" deleted
+  [ DELETING MANIFESTS/DEPLOYMENT.YAML ]: deployment "grafana-core" deleted
+  [ DELETING MANIFESTS/DASHBOARDS-JOB.YAML ]: job "grafana-import-dashboards" deleted
 
-[ DELETING MANIFESTS/DASHBOARDS-CONFIGMAP.YAML ]: configmap "grafana-import-dashboards" deleted
-[ DELETING MANIFESTS/DASHBOARDS-JOB.YAML ]: job "grafana-import-dashboards" deleted
-[ DELETING MANIFESTS/DEPLOYMENT.YAML ]: deployment "grafana-core" deleted
-[ DELETING MANIFESTS/INGRESS.YAML ]: No resources found
-[ DELETING MANIFESTS/PERSISTENTVOLUMECLAIM.YAML ]: persistentvolumeclaim "grafana-persistent-storage" deleted
-[ DELETING MANIFESTS/SERVICE.YAML ]: service "grafana" deleted
 ```
 
 ## See also

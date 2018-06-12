@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: grafana-persistent-storage
+  name: $GCE_DISK
 spec:
   capacity:
     storage: 100Gi
@@ -11,4 +11,4 @@ spec:
   storageClassName: fast
   gcePersistentDisk:
     fsType: ext4
-    pdName: grafana-persistent-storage
+    pdName: $GCE_DISK

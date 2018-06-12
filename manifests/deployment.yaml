@@ -18,9 +18,7 @@ spec:
       - image: $IMAGE
         name: grafana-core
         imagePullPolicy: IfNotPresent
-        # env:
         resources:
-          # keep request = limit to keep this container in guaranteed class
           limits:
             cpu: 100m
             memory: 100Mi
@@ -28,7 +26,6 @@ spec:
             cpu: 100m
             memory: 100Mi
         env:
-          # The following env variables set up basic auth twith the default admin user and admin password.
           - name: GF_AUTH_BASIC_ENABLED
             value: "true"
           - name: GF_AUTH_ANONYMOUS_ENABLED
@@ -52,9 +49,9 @@ spec:
           initialDelaySeconds: 60
           timeoutSeconds: 15
         volumeMounts:
-          - name: grafana-persistent-storage
+          - name: $GCE_DISK
             mountPath: /var/lib/grafana
       volumes:
-      - name: grafana-persistent-storage
+      - name: $GCE_DISK
         persistentVolumeClaim:
-          claimName: grafana-persistent-storage
+          claimName: $GCE_DISK
