@@ -9,7 +9,7 @@ include .make/Makefile.inc
 
 NS                      ?= default
 APP                     ?= grafana
-IMAGE                   ?= grafana/grafana:5.2.0-beta1
+IMAGE                   ?= grafana/grafana:5.1.3
 INSTALL_PLUGINS         ?= grafana-clock-panel,grafana-simple-json-datasource,camptocamp-prometheus-alertmanager-datasource,ntop-ntopng-datasource,novalabs-annotations-panel,alexanderzobnin-zabbix-app
 ADMIN_PASSWORD          ?= P@55w0rd!!
 AWS_PROFILE             ?= default
@@ -18,7 +18,11 @@ AWS_SECRET_ACCESS_KEY   ?= YOUR_SECRET_KEY
 AWS_REGION              ?= us-west-1
 GCE_ZONE				?= us-central1-a
 GCE_DISK                ?= grafana-persistent-storage
-export
+
+## Create disk
+create-disk:
+
+	gcloud compute disks create $(GCE_DISK) --zone $(GCE_ZONE)
 
 ## Test installation
 test:
