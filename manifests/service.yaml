@@ -5,7 +5,6 @@ metadata:
   namespace: $NS
   labels:
     app: grafana
-    component: core
 spec:
   type: NodePort
   ports:
@@ -13,4 +12,3 @@ spec:
       targetPort: 3000
   selector:
     app: grafana
-    component: core

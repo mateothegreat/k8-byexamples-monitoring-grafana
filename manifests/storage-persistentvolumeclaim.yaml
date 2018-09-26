@@ -10,4 +10,4 @@ spec:
   storageClassName: fast
   resources:
     requests:
-      storage: 100Gi
+      storage: 10Gi

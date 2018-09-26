@@ -5,19 +5,26 @@ metadata:
   namespace: $NS
   labels:
     app: grafana
-    component: core
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: grafana
-        component: core
     spec:
+      initContainers:
+        - name: volume-mount-set-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 472:472 /var/lib/grafana"]
+          volumeMounts:
+          - name: $GCE_DISK
+            mountPath: /var/lib/grafana   
       containers:
       - image: $IMAGE
         name: grafana-core
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
+        securityContext:
+          # runAsUser: 0
         resources:
           limits:
             cpu: 100m

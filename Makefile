@@ -16,7 +16,7 @@ AWS_PROFILE             ?= default
 AWS_ACCESS_KEY_ID       ?= YOUR_ACCESS_KEY
 AWS_SECRET_ACCESS_KEY   ?= YOUR_SECRET_KEY
 AWS_REGION              ?= us-west-1
-GCE_ZONE				?= us-central1-a
+GCE_ZONE				?= asia-southeast1-a
 GCE_DISK                ?= grafana-persistent-storage
 
 ## Create disk
